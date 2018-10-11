@@ -1,0 +1,6 @@
+---
+# file:  inventories/production/group_vars/all/create-user.yml
+
+deploy_user: deployer
+deploy_group: deployer
+deploy_shell_command: /bin/bash

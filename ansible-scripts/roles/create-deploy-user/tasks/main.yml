@@ -1,0 +1,32 @@
+---
+# file: roles/deploy-extcli01/tasks/main.yml
+
+- name: Make sure we have a '{{ deploy_group }}' group
+  group:
+    name: "{{ deploy_group }}"
+    state: present
+
+- name: Allow '{{ deploy_group }}' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%{{ deploy_group }}"
+    line: "%{{ deploy_group }} ALL=(ALL) NOPASSWD: ALL"
+    validate: 'visudo -cf %s'
+
+- name: Add the user '{{ deploy_user }}' appending the group '{{ deploy_group }}' to the user's groups
+  user:
+    comment: Used to deploy with ansible scripts
+    name: "{{ deploy_user }}"
+    groups: "{{ deploy_group }}"
+    append: yes
+    state: present
+    createhome: yes
+    shell: "{{ deploy_shell_command }}"
+
+- name: Set up authorized keys for the deployer user
+  authorized_key:
+    user: "{{ deploy_user }}"
+    key: "{{ item }}"
+  with_file:
+    - keys/production_rsa.pub

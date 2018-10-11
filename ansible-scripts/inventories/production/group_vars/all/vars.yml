@@ -1,0 +1,32 @@
+---
+# file: inventories/production/group_vars/all/vars.yml
+
+env_type: staging
+build_env: preprod
+app_version: develop
+debug_mode: false
+
+common_user:
+  name: extcli01
+  group: extcli01
+
+maintenance_mode_enabled: true
+backup_enabled: false
+deploy_enabled: true
+notification_enabled: false
+
+app_config:
+  remote_directory: /var/sites/extcli01.bak/www
+  name: extcli01
+  domain: https://recette-clients2.cdc-habitat.fr
+
+  repository:
+    name: AcelysSniLot2/extcli01
+    url: git@bitbucket.org:AcelysSniLot2/extcli01.git
+    default_branch: "{{ app_version }}"
+
+  database:
+    host: 127.0.0.1
+    user: "root"
+    password: "root"
+    name: p_extcli02

@@ -1,0 +1,4 @@
+# file: inventories/production/group_vars/hosts
+
+[webservers]
+vps ansible_host=54.38.187.215 ansible_user=deployer ansible_ssh_private_key_file=keys/production_rsa

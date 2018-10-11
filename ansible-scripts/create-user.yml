@@ -1,0 +1,8 @@
+---
+# file: create-user.yml
+
+- name: Create deploy user
+  hosts: all
+
+  roles:
+    - create-deploy-user
