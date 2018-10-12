@@ -3,6 +3,13 @@
 
 - name: Install web server
   hosts: webservers
+  become: yes
+
+  pre_tasks:
+    - file:
+        path: "{{ app_directory }}"
+        state: directory
+        mode: 0755
 
   roles:
-    - create-deploy-user
+    - ansible-role-nginx
