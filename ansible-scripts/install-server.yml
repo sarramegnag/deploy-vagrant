@@ -9,7 +9,10 @@
     - file:
         path: "{{ app_directory }}"
         state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_group }}"
         mode: 0755
 
   roles:
     - ansible-role-nginx
+    - ansible-role-certbot

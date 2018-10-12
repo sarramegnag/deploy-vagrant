@@ -1,15 +1,18 @@
 app_domain: vps.sarramegna.fr
+app_email: guillaume@sarramegna.fr
 app_directory: /var/www/html/{{ app_domain }}
 
 nginx_vhosts:
   - filename: "{{ app_domain }}.80.conf"
     listen: 80
     server_name: "{{ app_domain }}"
-    return: 301 https://vps.sarramegna.fr$request_uri
+    return: 301 https://{{ app_domain }}$request_uri
 
   - filename: "{{ app_domain }}.443.conf"
     listen: 443 ssl
     server_name: "{{ app_domain }}"
+    root: "{{ app_directory }}"
+    index: index.php
     access_log: /var/log/nginx/{{ app_domain }}_access.log
     error_log: /var/log/nginx/{{ app_domain }}_error.log
     state: present
@@ -50,3 +53,10 @@ nginx_vhosts:
       location ~ \.php$ {
           return 404;
       }
+
+certbot_create_if_missing: yes
+certbot_create_method: standalone
+certbot_admin_email: "{{ app_email }}"
+certbot_certs:
+  - domains:
+    - "{{ app_domain }}"
